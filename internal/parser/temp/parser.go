@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"http-server-go/internal/http1"
-	"log"
 )
 
 var sampleRequest = `GET / HTTP/1.1` + "\r\n" +
@@ -12,30 +11,29 @@ var sampleRequest = `GET / HTTP/1.1` + "\r\n" +
 					`User-Agent: curl/8.14.1` + "\r\n" +
 					"\r\n" // another <CRLF> for whitespace to indicate end of header section
 
-// should I return error here or just exit
 func parseRequestLine(b []byte) (http1.RequestLine, error) {
 	requestLine := http1.RequestLine{}
 
-	whitespace := ' '
+	whitespace := byte(' ')
 
 	first := bytes.IndexByte(b, whitespace)
 	if first < 0 {
-		return nil, errors.New("whitespace not found")
+		return requestLine, errors.New("whitespace not found")
 	}
 
 	second := bytes.IndexByte(b[first+1:], whitespace)
 	if first < 0 {
-		return nil, errors.New("whitespace not found")
+		return requestLine, errors.New("whitespace not found")
 	}
 
-	third := bytes.IndexByte(b[second+1:], whitespace)
-	if third < 0 {
-		return nil, errors.New("whitespace not found")
+	third := bytes.IndexByte(b[first+1+second+1:], whitespace)
+	if third > 0 {
+		return requestLine, errors.New("HTTP Message is malformed; There is a whitespace at the end of the Request Line")
 	}
 
-	requestLine.method := string(b[:first])
-	requestLine.targetResource := string(b[first+1 : second])
-	requestLine.httpVersion := string(b[second+1:])
+	requestLine.Method = string(b[:first])
+	requestLine.TargetResource = string(b[first+1 : first+1+second])
+	requestLine.HttpVersion = string(b[first+1+second+1:])
 
 	return requestLine, nil
 }
@@ -47,25 +45,27 @@ func parseRequestHeaders() {
 func parseRequestBody() {
 }
 
-func ParseRequest(b []byte) (http1.HTTPRequest, error) {
+func ParseRequest(b []byte) (http1.HTTPMessage, error) {
 	message := http1.HTTPMessage{}
 	var restOfMessage []byte
 
 	separator := []byte{'\r', '\n'}
 	i := bytes.Index(b, separator)
 	if i < 0 {
-		log.Fatal("<CRLF> not found in the http message")
+		return message, errors.New("<CRLF> not found in the http message")
 	}
 
 	// store the request line and the rest of the message in separate variables
-	restOfMessage := b[i+2:]
+	restOfMessage = b[i+2:]
+	_ = restOfMessage
 
-	message.requestLine, err := ParseRequestLine(b[:i])
+	requestLine, err := parseRequestLine(b[:i])
+	message.RequestLine = requestLine
 	if err != nil {
-		return nil, err
+		return message, err
 	}
-	ParseRequestHeaders()
-	ParseRequestBody()
+	parseRequestHeaders()
+	parseRequestBody()
 
 	return message, nil
 }

@@ -21,13 +21,13 @@ func ListenForConnections() error {
 	if err != nil {
 		return err
 	}
+	defer conn.Close()
 
 	msgFrmClient := make([]byte, 1024)
 	n, err := conn.Read(msg_frm_sender)
 	if err != nil {
 		return err
 	}
-	defer conn.Close()
 
 	parser.ParseRequest(msgFrmClient)
 }
