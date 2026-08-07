@@ -11,22 +11,22 @@ func TestIsMethodValid(t *testing.T) {
 		expected	bool
 	} {
 		{
-			name: "GET request",
+			name: "accept GET method",
 			input: "GET",
 			expected: true,
 		},
 		{
-			name: "Get request",
+			name: "reject Get method",
 			input: "Get",
 			expected: false,
 		},
 		{
-			name: "POST request",
+			name: "accept POST method",
 			input: "POST",
 			expected: true,
 		},
 		{
-			name: "Invalid request",
+			name: "reject invalid method",
 			input: "FETCH",
 			expected: false,
 		},
