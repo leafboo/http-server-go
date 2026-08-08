@@ -14,13 +14,13 @@ const (
 	Invalid
 )
 
-var VersionStatusEnumName = map[VersionStatus]string {
-	Supported: "Supported",
+var VersionStatusEnumName = map[VersionStatus]string{
+	Supported:   "Supported",
 	Unsupported: "Unsupported",
-	Invalid: "Invalid",
+	Invalid:     "Invalid",
 }
 
-func (v VersionStatus)String() string {
+func (v VersionStatus) String() string {
 	return VersionStatusEnumName[v]
 }
 
@@ -62,11 +62,11 @@ func parseRequestLine(b []byte) (http1.RequestLine, error) {
 	}
 
 	second := bytes.IndexByte(b[first+1:], whitespace)
-	if first < 0 {
+	if second < 0 {
 		return requestLine, errors.New("whitespace not found")
 	}
-	requestTarget := b[first+1:first+1+second]
-	if string(requestTarget ) == "" {
+	requestTarget := b[first+1 : first+1+second]
+	if string(requestTarget) == "" {
 		return requestLine, errors.New("request target empty")
 	}
 
@@ -76,12 +76,11 @@ func parseRequestLine(b []byte) (http1.RequestLine, error) {
 	}
 	httpVersion := b[first+1+second+1:]
 	switch validateVersion(httpVersion) {
-		case Unsupported: // return status 505 (HTTP Version Not Supported)
+	case Unsupported: // return status 505 (HTTP Version Not Supported)
 		return requestLine, errors.New("HTTP version is not supported")
-		case Invalid: // return status 400
+	case Invalid: // return status 400
 		return requestLine, errors.New("HTTP version is invalid")
 	}
-
 
 	requestLine.Method = string(method)
 	requestLine.RequestTarget = string(requestTarget)

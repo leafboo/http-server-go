@@ -7,10 +7,10 @@ import (
 
 func TestParseRequestLine(t *testing.T) {
 	tests := []struct {
-		name		string
-		input		string
-		expected	http1.RequestLine
-		shouldFail	bool
+		name       string
+		input      string
+		expected   http1.RequestLine
+		shouldFail bool
 	}{
 		{
 			name:  "GET request",
@@ -31,8 +31,8 @@ func TestParseRequestLine(t *testing.T) {
 			},
 		},
 		{
-			name:  "HTTP request with invalid method",
-			input: "GO /home/homepage.html HTTP/1.1",
+			name:       "HTTP request with invalid method",
+			input:      "GO /home/homepage.html HTTP/1.1",
 			shouldFail: true,
 		},
 	}

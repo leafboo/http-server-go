@@ -7,9 +7,9 @@ import (
 )
 
 var sampleRequest = `GET / HTTP/1.1` + "\r\n" +
-					`Host: localhost:8080` + "\r\n" +
-					`User-Agent: curl/8.14.1` + "\r\n" +
-					"\r\n" // another <CRLF> for whitespace to indicate end of header section
+	`Host: localhost:8080` + "\r\n" +
+	`User-Agent: curl/8.14.1` + "\r\n" +
+	"\r\n" // another <CRLF> for whitespace to indicate end of header section
 
 func parseRequestLine(b []byte) (http1.RequestLine, error) {
 	requestLine := http1.RequestLine{}
