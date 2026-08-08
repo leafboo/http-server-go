@@ -14,6 +14,16 @@ const (
 	Invalid
 )
 
+var VersionStatusEnumName = map[VersionStatus]string {
+	Supported: "Supported",
+	Unsupported: "Unsupported",
+	Invalid: "Invalid",
+}
+
+func (v VersionStatus)String() string {
+	return VersionStatusEnumName[v]
+}
+
 func isMethodValid(b []byte) bool {
 	switch string(b) {
 	case "GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH":
@@ -57,7 +67,7 @@ func parseRequestLine(b []byte) (http1.RequestLine, error) {
 	}
 	requestTarget := b[first+1:first+1+second]
 	if string(requestTarget ) == "" {
-		return requestLine, errors.New("request target empty")	
+		return requestLine, errors.New("request target empty")
 	}
 
 	third := bytes.IndexByte(b[first+1+second+1:], whitespace)

@@ -43,3 +43,37 @@ func TestIsMethodValid(t *testing.T) {
 
 
 }
+
+func TestValidateVersion(t *testing.T) {
+	tests := []struct {
+		name		string
+		input		string
+		expected	VersionStatus
+	} {
+		{
+			name: "accept HTTP/1.1 version",
+			input: "HTTP/1.1",
+			expected: Supported,
+		},
+		{
+			name: "reject HTTP1.1 version",
+			input: "HTTP1.1",
+			expected: Invalid,
+		},
+		{
+			name: "reject HTTP/2 version",
+			input: "HTTP/2",
+			expected: Unsupported,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			status := validateVersion([]byte(test.input))
+			if status != test.expected {
+				t.Errorf("validateVersion() failed; expected %v, got %v", test.expected, status)
+			}
+		})
+	}
+
+}
