@@ -1,33 +1,33 @@
 package parser
 
 import (
-	"testing"
-	"maps"
 	"http-server-go/internal/http1"
+	"maps"
+	"testing"
 )
 
 func TestParseRequestHeaders(t *testing.T) {
 	tests := []struct {
-		name		string
-		input		string
-		expected	http1.RequestHeaders
-		shouldFail	bool
-	} {
+		name       string
+		input      string
+		expected   http1.RequestHeaders
+		shouldFail bool
+	}{
 		{
-			name: "accept 2 headers",
+			name:  "accept 2 headers",
 			input: "Host: example.com\r\nContent-Length: 35\r\n",
 			expected: http1.RequestHeaders{
-				"Host": "example.com",
+				"Host":           "example.com",
 				"Content-Length": "35",
 			},
 		},
 		{
-			name: "reject malformed header",
-			input: "Host example.com\r\nContent-Length: 35\r\n",
+			name:       "reject malformed header",
+			input:      "Host example.com\r\nContent-Length: 35\r\n",
 			shouldFail: true,
 		},
 		{
-			name: "acccept localhost:8000 field value",
+			name:  "acccept localhost:8000 field value",
 			input: "Host:   localhost:8000\r\n",
 			expected: http1.RequestHeaders{
 				"Host": "localhost:8000",

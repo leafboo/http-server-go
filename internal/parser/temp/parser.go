@@ -25,7 +25,7 @@ func ParseRequest(b []byte) (http1.HTTPMessage, error) {
 	if j < 0 {
 		return message, errors.New("whitespace at the end of the header section not found")
 	}
-	headers, err := parseRequestHeaders(b[i+2:j+2])
+	headers, err := parseRequestHeaders(b[i+2 : j+2])
 	if err != nil {
 		return message, err
 	}

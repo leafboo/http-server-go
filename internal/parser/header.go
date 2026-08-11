@@ -1,9 +1,9 @@
 package parser
 
 import (
-	"http-server-go/internal/http1"
 	"bytes"
 	"errors"
+	"http-server-go/internal/http1"
 )
 
 // NOTE: Implement at the validation of HTTP message semantics code
@@ -38,7 +38,7 @@ func parseRequestHeaders(b []byte) (http1.RequestHeaders, error) {
 			break
 		}
 		// Host: example.com\r\n
-		fieldLine, err := parseFieldLine(b[currLine:currLine+iCrlf])
+		fieldLine, err := parseFieldLine(b[currLine : currLine+iCrlf])
 		if err != nil {
 			return requestHeaders, err
 		}
