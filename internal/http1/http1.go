@@ -16,4 +16,5 @@ type RequestHeaders map[string]string
 
 type HTTPMessage struct {
 	RequestLine RequestLine
+	RequestHeaders RequestHeaders
 }

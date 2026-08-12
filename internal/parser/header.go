@@ -11,6 +11,27 @@ import (
 // a Host header field, contain more than one Host header,
 // or if the Host header has invalid value, return status 400
 
+// NOTE: figure out how to deal with list based fields(field names that allow multiple field values)
+
+func isToken(b []byte) bool {
+	for _, byte := range b {
+		if byte >= 'A' && byte <= 'Z' ||
+			byte >= 'a' && byte <= 'z' ||
+			byte >= 0 && byte <= 9 ||
+			byte == '!' || byte == '#' ||
+			byte == '$' || byte == '%' ||
+			byte == '&' || byte == '\'' ||
+			byte == '*' || byte == '+' ||
+			byte == '-' || byte == '.' ||
+			byte == '^' || byte == '_' ||
+			byte == '`' || byte == '|' || byte == '~' {
+			continue
+		}
+		return false
+	}
+	return true
+}
+
 func parseFieldLine(b []byte) ([][]byte, error) {
 	fieldLine := bytes.SplitN(b, []byte(":"), 2)
 	fieldName := fieldLine[0]
@@ -18,7 +39,8 @@ func parseFieldLine(b []byte) ([][]byte, error) {
 	if len(fieldLine) != 2 {
 		return nil, errors.New("Malformed field line")
 	}
-	if bytes.HasSuffix(fieldName, []byte(" ")) {
+	// As per the RFC 9110, field name must only contain tokens
+	if !isToken(fieldName) {
 		return nil, errors.New("Malformed field name")
 	}
 
