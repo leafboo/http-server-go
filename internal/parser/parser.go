@@ -31,6 +31,7 @@ func ParseRequest(b []byte) (http1.HTTPMessage, error) {
 	if err != nil {
 		return message, err
 	}
+	// NOTE: before adding the headers, validate the semantics
 	message.RequestHeaders = headers
 
 	// body, err := parseRequestBody(b[j+4:])

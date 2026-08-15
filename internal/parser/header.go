@@ -48,9 +48,8 @@ func parseFieldLine(b []byte) ([][]byte, error) {
 	return [][]byte{fieldName, fieldValue}, nil
 }
 
-// should I return a pointer here instead ???
 func parseRequestHeaders(b []byte) (http1.RequestHeaders, error) {
-	requestHeaders := http1.RequestHeaders{}
+	requestHeaders := make(http1.RequestHeaders)
 	crlf := []byte{'\r', '\n'}
 
 	currLine := 0
@@ -65,9 +64,9 @@ func parseRequestHeaders(b []byte) (http1.RequestHeaders, error) {
 			return requestHeaders, err
 		}
 
-		fieldName := string(fieldLine[0])
+		fieldName := string(bytes.ToLower(fieldLine[0]))
 		fieldValue := string(fieldLine[1])
-		requestHeaders[fieldName] = fieldValue
+		requestHeaders.SetRequestHeaders(fieldName, fieldValue)
 		currLine += iCrlf + 2
 	}
 
