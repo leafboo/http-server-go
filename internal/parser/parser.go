@@ -6,8 +6,18 @@ import (
 	"http-server-go/internal/http1"
 )
 
+func isMessageBodyPresent(h http1.RequestHeaders) bool {
+	_, hasContentLength := h["content-length"]
+	_, hasTransferEncoding := h["transfer-encoding"]
+
+	if hasContentLength || hasTransferEncoding {
+		return true
+	}
+	return false
+}
+
 func ParseRequest(b []byte) (http1.HTTPMessage, error) {
-	message := http1.HTTPMessage{}
+	message := make(http1.HTTPMessage)
 
 	separator := []byte{'\r', '\n'}
 	i := bytes.Index(b, separator)
@@ -32,9 +42,14 @@ func ParseRequest(b []byte) (http1.HTTPMessage, error) {
 		return message, err
 	}
 	// NOTE: before adding the headers, validate the semantics
+	if !isHeaderSemanticsValid(headers) {
+		return message, err
+	}
 	message.RequestHeaders = headers
 
-	// body, err := parseRequestBody(b[j+4:])
+	if isMessageBodyPresent(headers) {
+		// body, err := parseRequestBody(b[j+4:])
+	}
 
 	return message, nil
 }

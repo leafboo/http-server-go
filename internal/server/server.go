@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"http-server-go/internal/http1"
 	"http-server-go/internal/parser"
 	"log"
 	"net"
@@ -17,6 +18,7 @@ func ListenForConnections() error {
 	}
 	defer listener.Close()
 
+	// TODO: Accept multiple connections
 	conn, err := listener.Accept()
 	if err != nil {
 		return err
@@ -29,5 +31,12 @@ func ListenForConnections() error {
 		return err
 	}
 
-	parser.ParseRequest(msgFrmClient)
+	// NOTE: should still return response when there are errors in parsing
+	// NOTE: httpMessage here may have an empty body
+	httpMessage, err := parser.ParseRequest(msgFrmClient)
+	if err != nil {
+		// check what kind of error returned and construct respective http response
+	}
+
+	httpResponse, err := http1.CreateResponse(httpMessage)
 }
