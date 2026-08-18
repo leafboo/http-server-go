@@ -1,7 +1,6 @@
-package parser
+package http1
 
 import (
-	"http-server-go/internal/http1"
 	"testing"
 )
 
@@ -82,13 +81,13 @@ func TestParseRequestLine(t *testing.T) {
 	tests := []struct {
 		name       string
 		input      string
-		expected   http1.RequestLine
+		expected   RequestLine
 		shouldFail bool
 	}{
 		{
 			name:  "accept GET /homepage.html HTTP/1.1",
 			input: "GET /homepage.html HTTP/1.1",
-			expected: http1.RequestLine{
+			expected: RequestLine{
 				Method:        "GET",
 				RequestTarget: "/homepage.html",
 				HttpVersion:   "HTTP/1.1",
@@ -102,7 +101,7 @@ func TestParseRequestLine(t *testing.T) {
 		{
 			name:  "accept GET http://example.com/ HTTP/1.1",
 			input: "GET http://example.com/ HTTP/1.1",
-			expected: http1.RequestLine{
+			expected: RequestLine{
 				Method:        "GET",
 				RequestTarget: "http://example.com/",
 				HttpVersion:   "HTTP/1.1",

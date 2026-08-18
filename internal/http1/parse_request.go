@@ -1,12 +1,20 @@
-package parser
+package http1
 
 import (
 	"bytes"
 	"errors"
-	"http-server-go/internal/http1"
 )
 
-func isMessageBodyPresent(h http1.RequestHeaders) bool {
+func validateHeaderSemantics(h RequestHeaders) error {
+	// should exist and should be the first line in the header section
+	if _, hasHost := h["host"]; !hasHost {
+		return errors.New("The header doesn't have a host field'")
+	}
+
+	return nil
+}
+
+func isMessageBodyPresent(h RequestHeaders) bool {
 	_, hasContentLength := h["content-length"]
 	_, hasTransferEncoding := h["transfer-encoding"]
 
@@ -16,8 +24,8 @@ func isMessageBodyPresent(h http1.RequestHeaders) bool {
 	return false
 }
 
-func ParseRequest(b []byte) (http1.HTTPMessage, error) {
-	message := make(http1.HTTPMessage)
+func ParseRequest(b []byte) (HTTPMessage, error) {
+	message := HTTPMessage{}
 
 	separator := []byte{'\r', '\n'}
 	i := bytes.Index(b, separator)
@@ -42,7 +50,7 @@ func ParseRequest(b []byte) (http1.HTTPMessage, error) {
 		return message, err
 	}
 	// NOTE: before adding the headers, validate the semantics
-	if !isHeaderSemanticsValid(headers) {
+	if validateHeaderSemantics(headers) != nil {
 		return message, err
 	}
 	message.RequestHeaders = headers

@@ -1,34 +1,8 @@
 package http1
 
-import "fmt"
-
-type RequestLine struct {
-	Method        string
-	RequestTarget string
-	HttpVersion   string
-}
-
-func (r RequestLine) String() string {
-	return fmt.Sprintf("%v %v %v", r.Method, r.RequestTarget, r.HttpVersion)
-}
-
-type RequestHeaders map[string]string
-
-// NOTE: this can be a value receiver and still change the data because the `RequestHeaders` type is a map and
-// under the hood, maps in go are pointers that point to the actual map data structures
-func (r RequestHeaders) SetRequestHeaders(fName, fVal string) {
-	if _, ok := r[fName]; !ok {
-		r[fName] = fVal
-		return
-	}
-	r[fName] += fmt.Sprint(", " + fVal)
-}
-
-type HTTPMessage struct {
-	RequestLine    RequestLine
-	RequestHeaders RequestHeaders
-	Body           []byte
-}
+import (
+	"fmt"
+)
 
 type StatusLine struct {
 	HttpVersion  string
@@ -47,7 +21,7 @@ type HTTPResponse struct {
 // NOTE: the content/body is defined by the: request method, response status, and response fields
 func CreateResponse(h HTTPMessage) ([]byte, error) {
 	httpResponse := HTTPResponse{}
-	var responseByteStream []byte
+	responseByteStream := make([]byte, 0)
 
 	// check request method
 	method := h.RequestLine.Method
@@ -66,7 +40,7 @@ func CreateResponse(h HTTPMessage) ([]byte, error) {
 	reasonPhrase := httpResponse.StatusLine.ReasonPhrase
 
 	statusLine := fmt.Sprintf("%s %d %s \r\n", httpVersion, statusCode, reasonPhrase)
-	responseByteStream = append(responseByteStream, []byte(statusLine))
+	responseByteStream = append(responseByteStream, statusLine...)
 
 	return responseByteStream, nil
 }

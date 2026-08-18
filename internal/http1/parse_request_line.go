@@ -1,9 +1,8 @@
-package parser
+package http1
 
 import (
 	"bytes"
 	"errors"
-	"http-server-go/internal/http1"
 )
 
 type VersionStatus int
@@ -47,8 +46,8 @@ func validateVersion(b []byte) VersionStatus {
 }
 
 // NOTE: According to the RFC 9112, invalid request line should return either status 400 or 301
-func parseRequestLine(b []byte) (http1.RequestLine, error) {
-	requestLine := http1.RequestLine{}
+func parseRequestLine(b []byte) (RequestLine, error) {
+	requestLine := RequestLine{}
 
 	whitespace := byte(' ')
 

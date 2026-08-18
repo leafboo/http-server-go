@@ -4,46 +4,44 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	Development	//
-CreateResponse	internal/http1/http1.go	/^func CreateResponse(h HTTPMessage) ([]byte, error){$/;"	f
-HTTPMessage	internal/http1/http1.go	/^type HTTPMessage struct {$/;"	t
-HTTPResponse	internal/http1/http1.go	/^type HTTPResponse struct {$/;"	t
-Invalid	internal/parser/request_line.go	/^	Invalid$/;"	c
+CreateResponse	internal/http1/response.go	/^func CreateResponse(h HTTPMessage) ([]byte, error) {$/;"	f
+HTTPMessage	internal/http1/request.go	/^type HTTPMessage struct {$/;"	t
+HTTPResponse	internal/http1/response.go	/^type HTTPResponse struct {$/;"	t
+Invalid	internal/http1/parse_request_line.go	/^	Invalid$/;"	c
 ListenForConnections	internal/server/server.go	/^func ListenForConnections() error {$/;"	f
-ParseRequest	internal/parser/parser.go	/^func ParseRequest(b []byte) (http1.HTTPMessage, error) {$/;"	f
-RequestHeaders	internal/http1/http1.go	/^type RequestHeaders map[string]string$/;"	t
-RequestLine	internal/http1/http1.go	/^type RequestLine struct {$/;"	t
-ResponseHeaders	internal/http1/http1.go	/^type ResponseHeaders map[string]string$/;"	t
-SetRequestHeaders	internal/http1/http1.go	/^func (r RequestHeaders) SetRequestHeaders(fName, fVal string) {$/;"	f
-StatusLine	internal/http1/http1.go	/^type StatusLine struct {$/;"	t
-String	internal/http1/http1.go	/^func (r RequestLine) String() string {$/;"	f
-String	internal/parser/request_line.go	/^func (v VersionStatus) String() string {$/;"	f
-Supported	internal/parser/request_line.go	/^	Supported VersionStatus = iota$/;"	c
-TestIsMethodValid	internal/parser/request_line_test.go	/^func TestIsMethodValid(t *testing.T) {$/;"	f
-TestParseRequestHeaders	internal/parser/header_test.go	/^func TestParseRequestHeaders(t *testing.T) {$/;"	f
-TestParseRequestLine	internal/parser/request_line_test.go	/^func TestParseRequestLine(t *testing.T) {$/;"	f
-TestParseRequestLine	internal/parser/temp/parser_test.go	/^func TestParseRequestLine(t *testing.T) {$/;"	f
-TestValidateVersion	internal/parser/request_line_test.go	/^func TestValidateVersion(t *testing.T) {$/;"	f
-Unsupported	internal/parser/request_line.go	/^	Unsupported$/;"	c
-VersionStatus	internal/parser/request_line.go	/^type VersionStatus int$/;"	t
-VersionStatusEnumName	internal/parser/request_line.go	/^var VersionStatusEnumName = map[VersionStatus]string{$/;"	v
-http1	internal/http1/http1.go	/^package http1$/;"	p
-isHeaderSemanticsValid	internal/parser/validate.go	/^func isHeaderSemanticsValid(h http1.RequestHeaders) error {$/;"	f
-isMessageBodyPresent	internal/parser/parser.go	/^func isMessageBodyPresent(h http1.RequestHeaders) bool {$/;"	f
-isMethodValid	internal/parser/request_line.go	/^func isMethodValid(b []byte) bool {$/;"	f
-isToken	internal/parser/header.go	/^func isToken(b []byte) bool {$/;"	f
+ParseRequest	internal/http1/parse_request.go	/^func ParseRequest(b []byte) (HTTPMessage, error) {$/;"	f
+RequestHeaders	internal/http1/request.go	/^type RequestHeaders map[string]string$/;"	t
+RequestLine	internal/http1/request.go	/^type RequestLine struct {$/;"	t
+ResponseHeaders	internal/http1/response.go	/^type ResponseHeaders map[string]string$/;"	t
+SetRequestHeaders	internal/http1/request.go	/^func (r RequestHeaders) SetRequestHeaders(fName, fVal string) {$/;"	f
+StatusLine	internal/http1/response.go	/^type StatusLine struct {$/;"	t
+String	internal/http1/parse_request_line.go	/^func (v VersionStatus) String() string {$/;"	f
+String	internal/http1/request.go	/^func (r RequestLine) String() string {$/;"	f
+Supported	internal/http1/parse_request_line.go	/^	Supported VersionStatus = iota$/;"	c
+TestIsMethodValid	internal/http1/parse_request_line_test.go	/^func TestIsMethodValid(t *testing.T) {$/;"	f
+TestParseRequestHeaders	internal/http1/parse_request_header_test.go	/^func TestParseRequestHeaders(t *testing.T) {$/;"	f
+TestParseRequestLine	internal/http1/parse_request_line_test.go	/^func TestParseRequestLine(t *testing.T) {$/;"	f
+TestValidateVersion	internal/http1/parse_request_line_test.go	/^func TestValidateVersion(t *testing.T) {$/;"	f
+Unsupported	internal/http1/parse_request_line.go	/^	Unsupported$/;"	c
+VersionStatus	internal/http1/parse_request_line.go	/^type VersionStatus int$/;"	t
+VersionStatusEnumName	internal/http1/parse_request_line.go	/^var VersionStatusEnumName = map[VersionStatus]string{$/;"	v
+http1	internal/http1/parse_request.go	/^package http1$/;"	p
+http1	internal/http1/parse_request_body.go	/^package http1$/;"	p
+http1	internal/http1/parse_request_header.go	/^package http1$/;"	p
+http1	internal/http1/parse_request_header_test.go	/^package http1$/;"	p
+http1	internal/http1/parse_request_line.go	/^package http1$/;"	p
+http1	internal/http1/parse_request_line_test.go	/^package http1$/;"	p
+http1	internal/http1/request.go	/^package http1$/;"	p
+http1	internal/http1/response.go	/^package http1$/;"	p
+isHeaderSemanticsValid	internal/http1/parse_request.go	/^func isHeaderSemanticsValid(h RequestHeaders) error {$/;"	f
+isMessageBodyPresent	internal/http1/parse_request.go	/^func isMessageBodyPresent(h RequestHeaders) bool {$/;"	f
+isMethodValid	internal/http1/parse_request_line.go	/^func isMethodValid(b []byte) bool {$/;"	f
+isToken	internal/http1/parse_request_header.go	/^func isToken(b []byte) bool {$/;"	f
 main	main.go	/^func main() {$/;"	f
 main	main.go	/^package main$/;"	p
-parseFieldLine	internal/parser/header.go	/^func parseFieldLine(b []byte) ([][]byte, error) {$/;"	f
-parseRequestHeaders	internal/parser/header.go	/^func parseRequestHeaders(b []byte) (http1.RequestHeaders, error) {$/;"	f
-parseRequestLine	internal/parser/request_line.go	/^func parseRequestLine(b []byte) (http1.RequestLine, error) {$/;"	f
-parser	internal/parser/body.go	/^package parser$/;"	p
-parser	internal/parser/header.go	/^package parser$/;"	p
-parser	internal/parser/header_test.go	/^package parser$/;"	p
-parser	internal/parser/parser.go	/^package parser$/;"	p
-parser	internal/parser/request_line.go	/^package parser$/;"	p
-parser	internal/parser/request_line_test.go	/^package parser$/;"	p
-parser	internal/parser/temp/parser_test.go	/^package parser$/;"	p
-parser	internal/parser/validate.go	/^package parser$/;"	p
+parseFieldLine	internal/http1/parse_request_header.go	/^func parseFieldLine(b []byte) ([][]byte, error) {$/;"	f
+parseRequestHeaders	internal/http1/parse_request_header.go	/^func parseRequestHeaders(b []byte) (RequestHeaders, error) {$/;"	f
+parseRequestLine	internal/http1/parse_request_line.go	/^func parseRequestLine(b []byte) (RequestLine, error) {$/;"	f
 returnHello	main.go	/^func returnHello() string {$/;"	f
 server	internal/server/server.go	/^package server$/;"	p
-validateVersion	internal/parser/request_line.go	/^func validateVersion(b []byte) VersionStatus {$/;"	f
+validateVersion	internal/http1/parse_request_line.go	/^func validateVersion(b []byte) VersionStatus {$/;"	f

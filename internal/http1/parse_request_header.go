@@ -1,9 +1,8 @@
-package parser
+package http1
 
 import (
 	"bytes"
 	"errors"
-	"http-server-go/internal/http1"
 )
 
 // NOTE: Implement at the validation of HTTP message semantics code
@@ -48,8 +47,8 @@ func parseFieldLine(b []byte) ([][]byte, error) {
 	return [][]byte{fieldName, fieldValue}, nil
 }
 
-func parseRequestHeaders(b []byte) (http1.RequestHeaders, error) {
-	requestHeaders := make(http1.RequestHeaders)
+func parseRequestHeaders(b []byte) (RequestHeaders, error) {
+	requestHeaders := make(RequestHeaders)
 	crlf := []byte{'\r', '\n'}
 
 	currLine := 0
