@@ -3,6 +3,7 @@ package http1
 import (
 	"bytes"
 	"errors"
+	"strconv"
 )
 
 func validateHeaderSemantics(h RequestHeaders) error {
@@ -15,10 +16,9 @@ func validateHeaderSemantics(h RequestHeaders) error {
 }
 
 func isMessageBodyPresent(h RequestHeaders) bool {
-	_, hasContentLength := h["content-length"]
-	_, hasTransferEncoding := h["transfer-encoding"]
-
-	if hasContentLength || hasTransferEncoding {
+	// NOTE: we'll ignore the `Transfer-encoding` header for now because that header is mainly used in the
+	// response message even though technically it is allowed to have it in the request message as well
+	if _, hasContentLength := h["content-length"]; hasContentLength {
 		return true
 	}
 	return false
@@ -55,8 +55,19 @@ func ParseRequest(b []byte) (HTTPMessage, error) {
 	}
 	message.RequestHeaders = headers
 
-	if isMessageBodyPresent(headers) {
-		// body, err := parseRequestBody(b[j+4:])
+	// Handle only request with POST methods for now
+	if isMessageBodyPresent(headers) && message.RequestLine.Method == "POST" {
+		sBytesToSend, _ := headers["content-length"]
+		iBytesToSend, err := strconv.Atoi(sBytesToSend)
+		if err != nil {
+			return message, errors.New("the value of the `content-length` header is not a number")
+		}
+
+		beginningOfBody := j + 4
+		if iBytesToSend > len(b[beginningOfBody:]) {
+			return message, errors.New("value of the `content-length` header is greater than the length(in bytes) of the body")
+		}
+		message.Body = b[beginningOfBody : beginningOfBody+iBytesToSend]
 	}
 
 	return message, nil
